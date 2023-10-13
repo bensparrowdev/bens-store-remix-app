@@ -1,0 +1,18 @@
+query Input {
+  cart {
+    deliveryGroups {
+      deliveryAddress {
+        zip
+      }
+      deliveryOptions {
+        handle
+        title
+      }
+    }
+  }
+  deliveryCustomization {
+    metafield(namespace: "$app:hide-shipping-rates", key: "settings") {
+      value
+    }
+  }
+}

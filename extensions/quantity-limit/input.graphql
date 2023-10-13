@@ -1,0 +1,20 @@
+query Input {
+  cart {
+    lines {
+      quantity
+      merchandise {
+        ... on ProductVariant {
+          id
+          product {
+            id
+            handle
+            metafield(key: "quantity_limit", namespace: "custom") {
+              type
+              value
+            }
+          }
+        }
+      }
+    }
+  }
+}

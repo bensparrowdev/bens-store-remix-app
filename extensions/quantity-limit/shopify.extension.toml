@@ -1,0 +1,11 @@
+name = "Quantity Limit"
+type = "cart_checkout_validation"
+api_version = "2023-07"
+
+[build]
+command = ""
+path = "dist/function.wasm"
+
+[ui.paths]
+create = "/app/quantity-limit/:functionId"
+details = "/app/quantity-limit/:functionId/:id"

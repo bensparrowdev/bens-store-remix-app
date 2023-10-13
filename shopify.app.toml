@@ -1,0 +1,27 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "bens-store-remix-app"
+client_id = "1a6aff33162de46a8983c01755757352"
+application_url = "https://the-administration-absent-topics.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products"
+
+[auth]
+redirect_urls = [
+  "https://the-administration-absent-topics.trycloudflare.com/auth/callback",
+  "https://the-administration-absent-topics.trycloudflare.com/auth/shopify/callback",
+  "https://the-administration-absent-topics.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "ben-sparrow.myshopify.com"

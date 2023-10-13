@@ -1,0 +1,11 @@
+name = "Hide Shipping Rates"
+type = "delivery_customization"
+api_version = "2023-04"
+
+[build]
+command = ""
+path = "dist/function.wasm"
+
+[ui.paths]
+create = "/app/hide-shipping-rates/:functionId/new"
+details = "/app/hide-shipping-rates/:functionId/:id"
