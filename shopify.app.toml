@@ -2,7 +2,7 @@
 
 name = "bens-store-remix-app"
 client_id = "1a6aff33162de46a8983c01755757352"
-application_url = "https://the-administration-absent-topics.trycloudflare.com"
+application_url = "https://pulling-separate-stating-distant.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = "write_products"
 
 [auth]
 redirect_urls = [
-  "https://the-administration-absent-topics.trycloudflare.com/auth/callback",
-  "https://the-administration-absent-topics.trycloudflare.com/auth/shopify/callback",
-  "https://the-administration-absent-topics.trycloudflare.com/api/auth/callback"
+  "https://pulling-separate-stating-distant.trycloudflare.com/auth/callback",
+  "https://pulling-separate-stating-distant.trycloudflare.com/auth/shopify/callback",
+  "https://pulling-separate-stating-distant.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

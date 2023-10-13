@@ -1,16 +1,9 @@
-import { useEffect } from "react";
-import { json } from "@remix-run/node";
-import { useActionData, useNavigation, useSubmit } from "@remix-run/react";
 import {
   Page,
   Layout,
   Text,
   VerticalStack,
   Card,
-  Button,
-  HorizontalStack,
-  Box,
-  Divider,
   List,
   Link,
 } from "@shopify/polaris";
@@ -23,79 +16,10 @@ export const loader = async ({ request }) => {
   return null;
 };
 
-export async function action({ request }) {
-  const { admin } = await authenticate.admin(request);
-
-  const color = ["Red", "Orange", "Yellow", "Green"][
-    Math.floor(Math.random() * 4)
-  ];
-  const response = await admin.graphql(
-    `#graphql
-      mutation populateProduct($input: ProductInput!) {
-        productCreate(input: $input) {
-          product {
-            id
-            title
-            handle
-            status
-            variants(first: 10) {
-              edges {
-                node {
-                  id
-                  price
-                  barcode
-                  createdAt
-                }
-              }
-            }
-          }
-        }
-      }`,
-    {
-      variables: {
-        input: {
-          title: `${color} Snowboard`,
-          variants: [{ price: Math.random() * 100 }],
-        },
-      },
-    }
-  );
-
-  const responseJson = await response.json();
-
-  return json({
-    product: responseJson.data.productCreate.product,
-  });
-}
-
 export default function Index() {
-  const nav = useNavigation();
-  const actionData = useActionData();
-  const submit = useSubmit();
-
-  const isLoading =
-    ["loading", "submitting"].includes(nav.state) && nav.formMethod === "POST";
-
-  const productId = actionData?.product?.id.replace(
-    "gid://shopify/Product/",
-    ""
-  );
-
-  useEffect(() => {
-    if (productId) {
-      shopify.toast.show("Product created");
-    }
-  }, [productId]);
-
-  const generateProduct = () => submit({}, { replace: true, method: "POST" });
-
   return (
     <Page>
-      <ui-title-bar title="Remix app template">
-        <button variant="primary" onClick={generateProduct}>
-          Generate a product
-        </button>
-      </ui-title-bar>
+      <ui-title-bar title="Statement Agency" />
       <VerticalStack gap="5">
         <Layout>
           <Layout.Section>
@@ -103,74 +27,42 @@ export default function Index() {
               <VerticalStack gap="5">
                 <VerticalStack gap="2">
                   <Text as="h2" variant="headingMd">
-                    Congrats on creating a new Shopify app 🎉
+                    Welcome to Statement's Custom App
+                  </Text>
+
+                  <Text variant="bodyMd" as="p">
+                    Use this app to implement checkout functions which allow
+                    checkout extensions to run on this store. This app allows a
+                    front-end to be added to functions so that the user can
+                    customise settings, rather than only having extension-only
+                    capabilities.
                   </Text>
                   <Text variant="bodyMd" as="p">
-                    This embedded app template uses{" "}
+                    Find out how to add extensions to this app by visiting the{" "}
                     <Link
-                      url="https://shopify.dev/docs/apps/tools/app-bridge"
+                      url="https://statementagency.slite.com/app/docs/75tfts5DSAp-WN"
                       target="_blank"
                     >
-                      App Bridge
-                    </Link>{" "}
-                    interface examples like an{" "}
-                    <Link url="/app/additional">
-                      additional page in the app nav
+                      Statment docs
                     </Link>
-                    , as well as an{" "}
-                    <Link
-                      url="https://shopify.dev/docs/api/admin-graphql"
-                      target="_blank"
-                    >
-                      Admin GraphQL
-                    </Link>{" "}
-                    mutation demo, to provide a starting point for app
-                    development.
                   </Text>
                 </VerticalStack>
                 <VerticalStack gap="2">
-                  <Text as="h3" variant="headingMd">
-                    Get started with products
+                  <Text variant="headingMd" as="h2">
+                    Statement Extensions library
                   </Text>
-                  <Text as="p" variant="bodyMd">
-                    Generate a product with GraphQL and get the JSON output for
-                    that product. Learn more about the{" "}
-                    <Link
-                      url="https://shopify.dev/docs/api/admin-graphql/latest/mutations/productCreate"
-                      target="_blank"
-                    >
-                      productCreate
-                    </Link>{" "}
-                    mutation in our API references.
+                  <Text variant="bodyMd" as="p">
+                    Listed here are all the Checkout functions that are
+                    available in Statement's library
                   </Text>
+                  <List spacing="loose">
+                    <List.Item>Gift with purchase</List.Item>
+                    <List.Item>Hide shipping rates</List.Item>
+                    <List.Item>Hide payment methods</List.Item>
+                    <List.Item>Add PO number field</List.Item>
+                    <List.Item>Quantity limit</List.Item>
+                  </List>
                 </VerticalStack>
-                <HorizontalStack gap="3" align="end">
-                  {actionData?.product && (
-                    <Button
-                      url={`shopify:admin/products/${productId}`}
-                      target="_blank"
-                    >
-                      View product
-                    </Button>
-                  )}
-                  <Button loading={isLoading} primary onClick={generateProduct}>
-                    Generate a product
-                  </Button>
-                </HorizontalStack>
-                {actionData?.product && (
-                  <Box
-                    padding="4"
-                    background="bg-subdued"
-                    borderColor="border"
-                    borderWidth="1"
-                    borderRadius="2"
-                    overflowX="scroll"
-                  >
-                    <pre style={{ margin: 0 }}>
-                      <code>{JSON.stringify(actionData.product, null, 2)}</code>
-                    </pre>
-                  </Box>
-                )}
               </VerticalStack>
             </Card>
           </Layout.Section>
@@ -179,84 +71,37 @@ export default function Index() {
               <Card>
                 <VerticalStack gap="2">
                   <Text as="h2" variant="headingMd">
-                    App template specs
+                    Other links
                   </Text>
-                  <VerticalStack gap="2">
-                    <Divider />
-                    <HorizontalStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Framework
-                      </Text>
-                      <Link url="https://remix.run" target="_blank">
-                        Remix
-                      </Link>
-                    </HorizontalStack>
-                    <Divider />
-                    <HorizontalStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Database
-                      </Text>
-                      <Link url="https://www.prisma.io/" target="_blank">
-                        Prisma
-                      </Link>
-                    </HorizontalStack>
-                    <Divider />
-                    <HorizontalStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        Interface
-                      </Text>
-                      <span>
-                        <Link url="https://polaris.shopify.com" target="_blank">
-                          Polaris
-                        </Link>
-                        {", "}
-                        <Link
-                          url="https://shopify.dev/docs/apps/tools/app-bridge"
-                          target="_blank"
-                        >
-                          App Bridge
-                        </Link>
-                      </span>
-                    </HorizontalStack>
-                    <Divider />
-                    <HorizontalStack align="space-between">
-                      <Text as="span" variant="bodyMd">
-                        API
-                      </Text>
+                  <List spacing="loose">
+                    <List.Item>
+                      Visit the
                       <Link
-                        url="https://shopify.dev/docs/api/admin-graphql"
+                        url="https://statementagency.slite.com/app/docs/75tfts5DSAp-WN"
                         target="_blank"
                       >
-                        GraphQL API
-                      </Link>
-                    </HorizontalStack>
-                  </VerticalStack>
-                </VerticalStack>
-              </Card>
-              <Card>
-                <VerticalStack gap="2">
-                  <Text as="h2" variant="headingMd">
-                    Next steps
-                  </Text>
-                  <List spacing="extraTight">
+                        {" "}
+                        Statements docs
+                      </Link>{" "}
+                      to find out more about Shopify functions & custom apps.
+                    </List.Item>
                     <List.Item>
-                      Build an{" "}
+                      Follow Shopify's{" "}
                       <Link
                         url="https://shopify.dev/docs/apps/getting-started/build-app-example"
                         target="_blank"
                       >
                         {" "}
-                        example app
+                        QR code example app.
                       </Link>{" "}
-                      to get started
                     </List.Item>
                     <List.Item>
-                      Explore Shopify’s API with{" "}
+                      Explore Shopify’s API with this{" "}
                       <Link
                         url="https://shopify.dev/docs/apps/tools/graphiql-admin-api"
                         target="_blank"
                       >
-                        GraphiQL
+                        GraphQL examiner tool
                       </Link>
                     </List.Item>
                   </List>
